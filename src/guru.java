@@ -5,7 +5,7 @@
 
 /**
  *
- * @author user
+ * @author BAYU CANDRA Y
  */
 public class guru extends javax.swing.JFrame {
 
@@ -25,40 +25,65 @@ public class guru extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonRiwayatKehadiran = new rojerusan.RSMaterialButtonRectangle();
+        buttonKehadiran = new rojerusan.RSMaterialButtonRectangle();
+        buttonPelajaran = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("WELCOME GURU");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 43, -1, -1));
-
-        jButton1.setText("Input Kehadiran Siswa");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 87, 204, -1));
-
-        jButton2.setText("Riwayat Kehadiran Siswa");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 122, 204, -1));
-
-        jButton3.setText("Logout");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonRiwayatKehadiran.setBackground(new java.awt.Color(51, 52, 55));
+        buttonRiwayatKehadiran.setText("RIWAYAT KEHADIRAN");
+        buttonRiwayatKehadiran.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        buttonRiwayatKehadiran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                buttonRiwayatKehadiranActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 157, 204, -1));
+        getContentPane().add(buttonRiwayatKehadiran, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, 410, 70));
+
+        buttonKehadiran.setBackground(new java.awt.Color(51, 52, 55));
+        buttonKehadiran.setText("INPUT KEHADIRAN");
+        buttonKehadiran.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        buttonKehadiran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonKehadiranActionPerformed(evt);
+            }
+        });
+        getContentPane().add(buttonKehadiran, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 410, 70));
+
+        buttonPelajaran.setBackground(new java.awt.Color(51, 52, 55));
+        buttonPelajaran.setText("JADWAL PELAJARAN");
+        buttonPelajaran.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        buttonPelajaran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPelajaranActionPerformed(evt);
+            }
+        });
+        getContentPane().add(buttonPelajaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, 410, 70));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/DashboardGuru.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      new login().setVisible(true);
-      this.dispose(); // Menutup form login
-      
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void buttonKehadiranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKehadiranActionPerformed
+        new absen().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonKehadiranActionPerformed
+
+    private void buttonPelajaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPelajaranActionPerformed
+        new jadwalGuru().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonPelajaranActionPerformed
+
+    private void buttonRiwayatKehadiranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRiwayatKehadiranActionPerformed
+//        new riwayatHadir().setVisible(true);  
+        this.dispose();
+    }//GEN-LAST:event_buttonRiwayatKehadiranActionPerformed
 
     /**
      * @param args the command line arguments
@@ -96,9 +121,9 @@ public class guru extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private rojerusan.RSMaterialButtonRectangle buttonKehadiran;
+    private rojerusan.RSMaterialButtonRectangle buttonPelajaran;
+    private rojerusan.RSMaterialButtonRectangle buttonRiwayatKehadiran;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

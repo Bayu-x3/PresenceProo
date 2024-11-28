@@ -67,27 +67,23 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
 
     try {
         // Modifikasi query SQL untuk hanya mengambil data dengan hak_akses = 'admin'
-        String query = "SELECT id, nama, username, password FROM users WHERE hak_akses = 'admin'";
+        String query = "SELECT id_admin, nama, username, password FROM admin";
         PreparedStatement pstmt = conn.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
 
         while (rs.next()) {
-            int id = rs.getInt("id");
+            int id_admin = rs.getInt("id_admin");
             String nama = rs.getString("nama");
             String username = rs.getString("username");
             String password = rs.getString("password");
 
-            model.addRow(new Object[]{id, nama, username, password});
+            model.addRow(new Object[]{id_admin, nama, username, password});
         }
 
     } catch (Exception e) {
         e.printStackTrace();
     }
 }
-
-
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -222,7 +218,7 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
     }//GEN-LAST:event_inputNamaActionPerformed
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
-       String nama = inputNama.getText();
+    String nama = inputNama.getText();
     String username = inputUser.getText();
     String password = inputPass.getText();
     
@@ -232,7 +228,7 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
     }
     
     try {
-        String query = "INSERT INTO users (nama, username, password, hak_akses) VALUES (?, ?, ?, 'admin')";
+        String query = "INSERT INTO admin (nama, username, password) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, nama);
         pstmt.setString(2, username);
@@ -251,7 +247,7 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int selectedRow = tableAdmin.getSelectedRow();
     if (selectedRow != -1) {
-        int id = (int) tableAdmin.getValueAt(selectedRow, 0);
+        int id_admin = (int) tableAdmin.getValueAt(selectedRow, 0);
         String nama = inputNama.getText();
         String username = inputUser.getText();
         String password = inputPass.getText();
@@ -263,12 +259,12 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
 
         
         try {
-            String query = "UPDATE users SET nama = ?, username = ?, password = ? WHERE id = ?";
+            String query = "UPDATE admin SET nama = ?, username = ?, password = ? WHERE id_admin = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, nama);
             pstmt.setString(2, username);
             pstmt.setString(3, password);
-            pstmt.setInt(4, id);
+            pstmt.setInt(4, id_admin);
             pstmt.executeUpdate();
 
             loadDataToTable(); // Reload the table data
@@ -287,12 +283,12 @@ private void tableAdminMouseClicked(java.awt.event.MouseEvent evt) {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
          int selectedRow = tableAdmin.getSelectedRow();
     if (selectedRow != -1) {
-        int id = (int) tableAdmin.getValueAt(selectedRow, 0);
+        int id_admin = (int) tableAdmin.getValueAt(selectedRow, 0);
 
         try {
-            String query = "DELETE FROM users WHERE id = ?";
+            String query = "DELETE FROM admin WHERE id_admin = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, id_admin);
             pstmt.executeUpdate();
 
             loadDataToTable(); // Reload the table data

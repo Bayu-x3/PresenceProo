@@ -51,17 +51,17 @@ private void loadDataToTable() {
 
         try {
             // Modifikasi query SQL untuk hanya mengambil data dengan hak_akses = 'guru'
-            String query = "SELECT id, nama, username, password FROM users WHERE hak_akses = 'guru'";
+            String query = "SELECT id_guru, nama_guru, username, password FROM guru";
             PreparedStatement pstmt = conn.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String nama = rs.getString("nama");
+                int id_guru = rs.getInt("id_guru");
+                String nama_guru = rs.getString("nama_guru");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
 
-                model.addRow(new Object[]{id, nama, username, password});
+                model.addRow(new Object[]{id_guru, nama_guru, username, password});
             }
 
         } catch (Exception e) {
@@ -72,11 +72,11 @@ private void loadDataToTable() {
 private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
     int selectedRow = tableGuru.getSelectedRow();
     if (selectedRow != -1) {
-        String nama = tableGuru.getValueAt(selectedRow, 1).toString();
+        String nama_guru = tableGuru.getValueAt(selectedRow, 1).toString();
         String username = tableGuru.getValueAt(selectedRow, 2).toString();
         String password = tableGuru.getValueAt(selectedRow, 3).toString();
         
-        inputNama.setText(nama);
+        inputNama.setText(nama_guru);
         inputUser.setText(username);
         inputPass.setText(password);
     }
@@ -145,6 +145,11 @@ private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
         inputNama.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         inputNama.setForeground(new java.awt.Color(255, 255, 255));
         inputNama.setBorder(null);
+        inputNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputNamaActionPerformed(evt);
+            }
+        });
         getContentPane().add(inputNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 280, 50));
 
         tambahButton.setBackground(new java.awt.Color(0, 255, 0));
@@ -209,19 +214,19 @@ private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
-       String nama = inputNama.getText();
+       String nama_guru = inputNama.getText();
         String username = inputUser.getText();
         String password = inputPass.getText();
 
-        if (nama.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        if (nama_guru.isEmpty() || username.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "All fields must be filled out.");
             return; // Prevent the operation if validation fails
         }
 
         try {
-            String query = "INSERT INTO users (nama, username, password, hak_akses) VALUES (?, ?, ?, 'guru')";
+            String query = "INSERT INTO guru (nama, username, password) VALUES (?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, nama);
+            pstmt.setString(1, nama_guru);
             pstmt.setString(2, username);
             pstmt.setString(3, password);
             pstmt.executeUpdate();
@@ -239,19 +244,19 @@ private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = tableGuru.getSelectedRow();
         if (selectedRow != -1) {
             int id = (int) tableGuru.getValueAt(selectedRow, 0);
-            String nama = inputNama.getText();
+            String nama_guru = inputNama.getText();
             String username = inputUser.getText();
             String password = inputPass.getText();
 
-            if (nama.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            if (nama_guru.isEmpty() || username.isEmpty() || password.isEmpty()) {
                 javax.swing.JOptionPane.showMessageDialog(this, "All fields must be filled out.");
                 return; // Prevent the operation if validation fails
             }
 
             try {
-                String query = "UPDATE users SET nama = ?, username = ?, password = ? WHERE id = ?";
+                String query = "UPDATE guru SET nama_guru = ?, username = ?, password = ? WHERE id_guru = ?";
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setString(1, nama);
+                pstmt.setString(1, nama_guru);
                 pstmt.setString(2, username);
                 pstmt.setString(3, password);
                 pstmt.setInt(4, id);
@@ -273,12 +278,12 @@ private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int selectedRow = tableGuru.getSelectedRow();
         if (selectedRow != -1) {
-            int id = (int) tableGuru.getValueAt(selectedRow, 0);
+            int id_guru = (int) tableGuru.getValueAt(selectedRow, 0);
 
             try {
-                String query = "DELETE FROM users WHERE id = ?";
+                String query = "DELETE FROM users WHERE id_guru = ?";
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setInt(1, id);
+                pstmt.setInt(1, id_guru);
                 pstmt.executeUpdate();
 
                 loadDataToTable(); // Reload the table data
@@ -301,6 +306,10 @@ private void tableGuruMouseClicked(java.awt.event.MouseEvent evt) {
        new admin().setVisible(true); // Open the admin window
         this.dispose(); // Close the current window
     }//GEN-LAST:event_kembaliButtonActionPerformed
+
+    private void inputNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputNamaActionPerformed
 
     /**
      * @param args the command line arguments

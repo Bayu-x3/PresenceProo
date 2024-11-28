@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.PreparedStatement;
 /**
  *
  * @author user
@@ -27,33 +28,57 @@ public class login extends javax.swing.JFrame {
     
     void Login() {
     Connection con = null;
-    Statement st = null;
+    PreparedStatement pst = null;
     ResultSet rs = null;
 
     try {
         con = DriverManager.getConnection(url, user, pwd);
-        st = con.createStatement();
         
         // Mengambil input dari field usr dan pas
         String username = usr.getText();
         String password = pas.getText();
         
-        // Query untuk mengecek username dan password
-        String sql = "SELECT * FROM users WHERE username ='" + username + "' AND password = '" + password + "'";
-        rs = st.executeQuery(sql);
+        // Query untuk mengecek username dan password di tabel guru, admin, atau siswa
+        String sqlGuru = "SELECT * FROM guru WHERE username = ? AND password = ?";
+        String sqlAdmin = "SELECT * FROM admin WHERE username = ? AND password = ?";
+        String sqlSiswa = "SELECT * FROM siswa WHERE username = ? AND password = ?";
+
+        // Periksa tabel guru terlebih dahulu
+        pst = (PreparedStatement) con.prepareStatement(sqlGuru);
+        pst.setString(1, username);
+        pst.setString(2, password);
+        rs = pst.executeQuery();
 
         if (rs.next()) {
-            String hakAkses = rs.getString("hak_akses");
+            JOptionPane.showMessageDialog(null, "Welcome Guru");
+            new guru().setVisible(true); // Form Guru
+            this.dispose(); // Menutup form login
+            return;
+        }
 
-            if ("admin".equals(hakAkses)) {
-                JOptionPane.showMessageDialog(null, "Welcome Admin");
-                new admin().setVisible(true);
-                this.dispose(); // Menutup form login
-            } else if ("guru".equals(hakAkses)) {
-                JOptionPane.showMessageDialog(null, "Welcome Guru");
-                new guru().setVisible(true);
-                this.dispose(); // Menutup form login
-            }
+        // Periksa tabel admin
+        pst = (PreparedStatement) con.prepareStatement(sqlAdmin);
+        pst.setString(1, username);
+        pst.setString(2, password);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Welcome Admin");
+            new admin().setVisible(true); // Form Admin
+            this.dispose();
+            return;
+        }
+
+        // Periksa tabel siswa
+        pst = (PreparedStatement) con.prepareStatement(sqlSiswa);
+        pst.setString(1, username);
+        pst.setString(2, password);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Welcome Siswa");
+            new daSis().setVisible(true); // Form Siswa
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Username atau Password salah");
         }
@@ -62,7 +87,7 @@ public class login extends javax.swing.JFrame {
     } finally {
         try {
             if (rs != null) rs.close();
-            if (st != null) st.close();
+            if (pst != null) pst.close();
             if (con != null) con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error saat menutup koneksi: " + e.getMessage());
