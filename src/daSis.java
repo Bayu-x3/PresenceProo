@@ -34,16 +34,15 @@ public class daSis extends javax.swing.JFrame {
     // Mengisi ComboBox dengan data kelas dari database
     private void loadKelasToComboBox() {
         try {
-            String query = "SELECT id, kelas FROM kelas";
+            String query = "SELECT id_kelas, nama_kelas FROM kelas";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             inputKelas.removeAllItems(); // Hapus semua item yang ada di ComboBox
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String kelas = rs.getString("kelas");
-                String display = id + " - " + kelas;
+                String kelas = rs.getString("nama_kelas");
+                String display = kelas;
                 inputKelas.addItem(display);
             }
         } catch (Exception e) {
@@ -85,27 +84,29 @@ public class daSis extends javax.swing.JFrame {
     }
     
      // Mengambil data siswa dan mengisi tabel
-    private void refreshTable() {
-        try {
-            String query = "SELECT s.nisn, s.nis, s.nama, CONCAT(k.id, ' - ', k.kelas) AS kelas_info FROM siswa s JOIN kelas k ON s.kelas_id = k.id";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+   private void refreshTable() {
+    try {
+        String query = "SELECT s.nisn, s.nis, s.nama_siswa, CONCAT(k.id_kelas, ' - ', k.nama_kelas) AS kelas_info " +
+                       "FROM siswa s JOIN kelas k ON s.id_kelas = k.id_kelas";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
 
-            DefaultTableModel model = (DefaultTableModel) tableSiswa.getModel();
-            model.setRowCount(0); // Hapus semua baris yang ada
+        DefaultTableModel model = (DefaultTableModel) tableSiswa.getModel();
+        model.setRowCount(0); // Hapus semua baris yang ada
 
-            while (rs.next()) {
-                String nisn = rs.getString("nisn");
-                String nis = rs.getString("nis");
-                String nama = rs.getString("nama");
-                String kelas_info = rs.getString("kelas_info");
+        while (rs.next()) {
+            String nisn = rs.getString("nisn");
+            String nis = rs.getString("nis");
+            String nama = rs.getString("nama_siswa");
+            String kelas_info = rs.getString("kelas_info");
 
-                model.addRow(new Object[]{nisn, nis, nama, kelas_info});
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            model.addRow(new Object[]{nisn, nis, nama, kelas_info});
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     
 
@@ -140,6 +141,11 @@ public class daSis extends javax.swing.JFrame {
         inputNama.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
         inputNama.setForeground(new java.awt.Color(255, 255, 255));
         inputNama.setBorder(null);
+        inputNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputNamaActionPerformed(evt);
+            }
+        });
         getContentPane().add(inputNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 402, 280, 40));
 
         tableSiswa.setModel(new javax.swing.table.DefaultTableModel(
@@ -266,30 +272,53 @@ public class daSis extends javax.swing.JFrame {
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
         String nisn = inputNisn.getText();
-        String nis = inputNis.getText();
-        String nama = inputNama.getText();
-        String kelas = (String) inputKelas.getSelectedItem();
-        
-        String[] parts = kelas.split(" - ");
-    int kelasId = Integer.parseInt(parts[0]); // Ambil id kelas sebagai integer
+    String nis = inputNis.getText();
+    String nama = inputNama.getText();
+    String kelas = (String) inputKelas.getSelectedItem();
+    
+    // Query to get the id_kelas from the kelas table based on nama_kelas
+    int kelasId = getKelasId(kelas);
 
-        try {
-            String query = "INSERT INTO siswa (nisn, nis, nama, kelas_id) VALUES (?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, nisn);
-            pstmt.setString(2, nis);
-            pstmt.setString(3, nama);
-            pstmt.setInt(4, kelasId);
-            pstmt.executeUpdate();
+    if (kelasId == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Kelas tidak ditemukan.");
+        return; // Exit the method if the kelasId is invalid
+    }
 
-            inputNisn.setText("");
-            inputNis.setText("");
-            inputNama.setText("");
-            inputKelas.setSelectedItem("");
-            refreshTable(); // Tambahkan ini untuk memperbarui tabel
-        } catch (Exception e) {
-            e.printStackTrace();
+    try {
+        String query = "INSERT INTO siswa (nisn, nis, nama_siswa, id_kelas, username) VALUES (?, ?, ?, ?, 'Tes', '123')";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, nisn);
+        pstmt.setString(2, nis);
+        pstmt.setString(3, nama);
+        pstmt.setInt(4, kelasId);
+        pstmt.executeUpdate();
+
+        inputNisn.setText("");
+        inputNis.setText("");
+        inputNama.setText("");
+        inputKelas.setSelectedItem("");
+        refreshTable(); // Refresh the table
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}                                            
+
+private int getKelasId(String namaKelas) {
+    try {
+        String query = "SELECT id_kelas FROM kelas WHERE nama_kelas = ?";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, namaKelas);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("id_kelas");
+        } else {
+            return -1; // Return -1 if kelas is not found
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return -1; // Return -1 in case of an error
+    }
 
     }//GEN-LAST:event_tambahButtonActionPerformed
 
@@ -350,6 +379,10 @@ public class daSis extends javax.swing.JFrame {
     private void inputKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputKelasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputKelasActionPerformed
+
+    private void inputNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputNamaActionPerformed
 
     /**
      * @param args the command line arguments

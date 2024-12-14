@@ -25,6 +25,7 @@ public class absen extends javax.swing.JFrame {
         initComponents();
         connectDatabase();
         loadComboBoxes();
+        loadAbsenTable();
     }
 
     private void connectDatabase() {
@@ -52,6 +53,47 @@ public class absen extends javax.swing.JFrame {
         // Load the first set of students after loading the kelas data
         filterStudentsByClass();
     }
+     
+    private void loadAbsenTable() {
+    try {
+        String query = "SELECT a.id_absensi, p.nama_pelajaran, s.nama_siswa, a.status, a.waktu_absensi "
+                     + "FROM absensi a "
+                     + "JOIN pelajaran p ON a.id_pelajaran = p.id_pelajaran "
+                     + "JOIN siswa s ON a.id_siswa = s.id_siswa "
+                     + "JOIN kelas k ON a.id_kelas = k.id_kelas";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tableAbsen.getModel();
+        model.setRowCount(0); // Kosongkan tabel sebelum diisi ulang
+
+        while (rs.next()) {
+            model.addRow(new Object[] {
+                rs.getInt("id_absensi"),
+                rs.getString("nama_pelajaran"),
+                rs.getString("nama_siswa"),
+                rs.getString("status"),
+                rs.getTimestamp("waktu_absensi").toString()
+            });
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memuat data tabel!");
+    }
+}
+
+     
+private void tableAbsenMouseClicked(java.awt.event.MouseEvent evt) {                                        
+    int selectedRow = tableAbsen.getSelectedRow();
+    if (selectedRow != -1) {
+        inputJadwal.setSelectedItem(tableAbsen.getValueAt(selectedRow, 1)); // Nama Pelajaran
+        inputSiswa.setSelectedItem(tableAbsen.getValueAt(selectedRow, 2));  // Nama Siswa
+        jComboBox4.setSelectedItem(tableAbsen.getValueAt(selectedRow, 3));  // Status
+    }
+}
+
+
+
 
     private void loadComboBoxData(String tableName, String columnName, JComboBox<String> comboBox) {
         try {
@@ -106,6 +148,8 @@ pstmt.setString(1, selectedClass);
         jComboBox4 = new javax.swing.JComboBox<>();
         editButton = new rojerusan.RSMaterialButtonRectangle();
         deleteButton = new rojerusan.RSMaterialButtonRectangle();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableAbsen = new javax.swing.JTable();
         inputStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,6 +214,29 @@ pstmt.setString(1, selectedClass);
         });
         getContentPane().add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 610, 110, 50));
 
+        tableAbsen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Pelajaran", "Nama Siswa", "Status", "Waktu Absensi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableAbsen);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 640, 450));
+
         inputStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/Absensi.png"))); // NOI18N
         inputStatus.setText("jLabel1");
         getContentPane().add(inputStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, -1, 790));
@@ -183,10 +250,10 @@ pstmt.setString(1, selectedClass);
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
            try {
-        String jadwal = (String) inputJadwal.getSelectedItem(); // Selected jadwal
-        String siswa = (String) inputSiswa.getSelectedItem();   // Selected siswa
-        String kelas = (String) inpurKelas.getSelectedItem();   // Selected kelas
-        String status = (String) jComboBox4.getSelectedItem();  // Selected status
+        String jadwal = (String) inputJadwal.getSelectedItem();
+        String siswa = (String) inputSiswa.getSelectedItem();
+        String kelas = (String) inpurKelas.getSelectedItem();
+        String status = (String) jComboBox4.getSelectedItem();
 
         String query = "INSERT INTO absensi (id_pelajaran, id_siswa, id_kelas, status) VALUES "
                 + "((SELECT id_pelajaran FROM pelajaran WHERE nama_pelajaran = ?), "
@@ -201,54 +268,61 @@ pstmt.setString(1, selectedClass);
         pstmt.executeUpdate();
 
         JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan!");
+
+        loadAbsenTable(); // Perbarui tabel setelah menambahkan data
     } catch (SQLException ex) {
         ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menambahkan data!");
     }
     }//GEN-LAST:event_tambahButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         try {
-        String jadwal = (String) inputJadwal.getSelectedItem(); // Selected jadwal
-        String siswa = (String) inputSiswa.getSelectedItem();   // Selected siswa
-        String kelas = (String) inpurKelas.getSelectedItem();   // Selected kelas
-        String status = (String) jComboBox4.getSelectedItem();  // Selected status
+        int selectedRow = tableAbsen.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih baris yang ingin diubah!");
+            return;
+        }
 
-        String query = "UPDATE absensi SET status = ? WHERE id_pelajaran = "
-                       + "(SELECT id FROM pelajaran WHERE nama_pelajaran = ?) AND siswa_id = "
-                       + "(SELECT id FROM siswa WHERE nama_siswa = ?) AND kelas_id = "
-                       + "(SELECT id FROM kelas WHERE nama_kelas = ?)";
+        int idAbsensi = (int) tableAbsen.getValueAt(selectedRow, 0); // Ambil ID Absensi
+        String status = (String) jComboBox4.getSelectedItem();  // Status baru
+
+        String query = "UPDATE absensi SET status = ? WHERE id_absensi = ?";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, status);
-        pstmt.setString(2, jadwal);
-        pstmt.setString(3, siswa);
-        pstmt.setString(4, kelas);
+        pstmt.setInt(2, idAbsensi);
         pstmt.executeUpdate();
 
         JOptionPane.showMessageDialog(this, "Data berhasil diubah!");
+
+        loadAbsenTable(); // Perbarui tabel setelah mengedit data
     } catch (SQLException ex) {
         ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengubah data!");
     }
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-         try {
-        String jadwal = (String) inputJadwal.getSelectedItem(); // Selected jadwal
-        String siswa = (String) inputSiswa.getSelectedItem();   // Selected siswa
-        String kelas = (String) inpurKelas.getSelectedItem();   // Selected kelas
+        try {
+        int selectedRow = tableAbsen.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih baris yang ingin dihapus!");
+            return;
+        }
 
-        String query = "DELETE FROM absensi WHERE pelajaran_id = "
-                       + "(SELECT id FROM pelajaran WHERE nama_pelajaran = ?) AND siswa_id = "
-                       + "(SELECT id FROM siswa WHERE nama_siswa = ?) AND kelas_id = "
-                       + "(SELECT id FROM kelas WHERE nama_kelas = ?)";
+        int idAbsensi = (int) tableAbsen.getValueAt(selectedRow, 0); // Ambil ID Absensi
+
+        String query = "DELETE FROM absensi WHERE id_absensi = ?";
         PreparedStatement pstmt = conn.prepareStatement(query);
-        pstmt.setString(1, jadwal);
-        pstmt.setString(2, siswa);
-        pstmt.setString(3, kelas);
+        pstmt.setInt(1, idAbsensi);
         pstmt.executeUpdate();
 
         JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+
+        loadAbsenTable(); // Perbarui tabel setelah menghapus data
     } catch (SQLException ex) {
         ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menghapus data!");
     }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
@@ -305,6 +379,8 @@ pstmt.setString(1, selectedClass);
     private javax.swing.JComboBox<String> inputSiswa;
     private javax.swing.JLabel inputStatus;
     private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tableAbsen;
     private rojerusan.RSMaterialButtonRectangle tambahButton;
     // End of variables declaration//GEN-END:variables
 

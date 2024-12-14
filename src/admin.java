@@ -46,6 +46,8 @@ public class admin extends javax.swing.JFrame {
         guruButton = new rojerusan.RSMaterialButtonRectangle();
         siswaButton = new rojerusan.RSMaterialButtonRectangle();
         rSMaterialButtonRectangle1 = new rojerusan.RSMaterialButtonRectangle();
+        siswaButton1 = new rojerusan.RSMaterialButtonRectangle();
+        siswaButton2 = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,14 +77,14 @@ public class admin extends javax.swing.JFrame {
 
         siswaButton.setBackground(new java.awt.Color(51, 52, 55));
         siswaButton.setBorder(null);
-        siswaButton.setText("DATA SISWA");
+        siswaButton.setText("Mata Pelajaran");
         siswaButton.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
         siswaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 siswaButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(siswaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 410, 70));
+        getContentPane().add(siswaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 620, 410, 70));
 
         rSMaterialButtonRectangle1.setBackground(new java.awt.Color(255, 255, 255));
         rSMaterialButtonRectangle1.setBorder(null);
@@ -94,7 +96,29 @@ public class admin extends javax.swing.JFrame {
                 rSMaterialButtonRectangle1ActionPerformed(evt);
             }
         });
-        getContentPane().add(rSMaterialButtonRectangle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 160, -1));
+        getContentPane().add(rSMaterialButtonRectangle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 650, 160, -1));
+
+        siswaButton1.setBackground(new java.awt.Color(51, 52, 55));
+        siswaButton1.setBorder(null);
+        siswaButton1.setText("DATA SISWA");
+        siswaButton1.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
+        siswaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siswaButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(siswaButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 410, 70));
+
+        siswaButton2.setBackground(new java.awt.Color(51, 52, 55));
+        siswaButton2.setBorder(null);
+        siswaButton2.setText("Jadwal guru");
+        siswaButton2.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
+        siswaButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siswaButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(siswaButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 530, 410, 70));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/dashboardAdm.png"))); // NOI18N
@@ -114,7 +138,7 @@ public class admin extends javax.swing.JFrame {
     }//GEN-LAST:event_guruButtonActionPerformed
 
     private void siswaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siswaButtonActionPerformed
-        new daSis().setVisible(true);
+        new mapel().setVisible(true);
          this.dispose();
     }//GEN-LAST:event_siswaButtonActionPerformed
 
@@ -122,6 +146,16 @@ public class admin extends javax.swing.JFrame {
         new login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_rSMaterialButtonRectangle1ActionPerformed
+
+    private void siswaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siswaButton1ActionPerformed
+        new daSis().setVisible(true);
+         this.dispose();
+    }//GEN-LAST:event_siswaButton1ActionPerformed
+
+    private void siswaButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siswaButton2ActionPerformed
+        new jadwalGuru().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_siswaButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,5 +199,7 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle1;
     private rojerusan.RSMaterialButtonRectangle siswaButton;
+    private rojerusan.RSMaterialButtonRectangle siswaButton1;
+    private rojerusan.RSMaterialButtonRectangle siswaButton2;
     // End of variables declaration//GEN-END:variables
 }

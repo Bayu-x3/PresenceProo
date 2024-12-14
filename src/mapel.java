@@ -103,6 +103,8 @@ public class mapel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        inputMapel.setBackground(new java.awt.Color(51, 52, 55));
+        inputMapel.setBorder(null);
         inputMapel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputMapelActionPerformed(evt);

@@ -202,10 +202,14 @@ public class jadwalGuru extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        inputPelajaran.setBackground(new java.awt.Color(51, 52, 55));
         inputPelajaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        inputPelajaran.setBorder(null);
         getContentPane().add(inputPelajaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 280, 30));
 
+        inputGuru.setBackground(new java.awt.Color(51, 52, 55));
         inputGuru.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        inputGuru.setBorder(null);
         inputGuru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputGuruActionPerformed(evt);
@@ -213,21 +217,29 @@ public class jadwalGuru extends javax.swing.JFrame {
         });
         getContentPane().add(inputGuru, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 280, 30));
 
+        inputKelas.setBackground(new java.awt.Color(51, 52, 55));
         inputKelas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        inputKelas.setBorder(null);
         inputKelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputKelasActionPerformed(evt);
             }
         });
-        getContentPane().add(inputKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 290, 30));
+        getContentPane().add(inputKelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 308, 280, -1));
 
+        inputHari.setBackground(new java.awt.Color(51, 52, 55));
+        inputHari.setBorder(null);
         inputHari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputHariActionPerformed(evt);
             }
         });
         getContentPane().add(inputHari, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 280, 30));
+
+        inputJamSelesai.setBorder(null);
         getContentPane().add(inputJamSelesai, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 290, 30));
+
+        inputJamMulai.setBorder(null);
         getContentPane().add(inputJamMulai, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 290, 30));
 
         tambahButton.setBackground(new java.awt.Color(0, 255, 0));
@@ -275,7 +287,7 @@ public class jadwalGuru extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableJadwal);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 160, 610, 450));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 620, 450));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/JadwalGuru.png"))); // NOI18N
         jLabel1.setText("jLabel1");

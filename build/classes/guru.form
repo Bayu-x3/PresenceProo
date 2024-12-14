@@ -68,7 +68,7 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="37" green="34" red="33" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="JADWAL PELAJARAN"/>
+        <Property name="text" type="java.lang.String" value="JADWAL MENGAJAR"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Berlin Sans FB Demi" size="18" style="1"/>
         </Property>

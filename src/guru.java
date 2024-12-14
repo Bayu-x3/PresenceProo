@@ -54,7 +54,7 @@ public class guru extends javax.swing.JFrame {
         getContentPane().add(buttonKehadiran, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 410, 70));
 
         buttonPelajaran.setBackground(new java.awt.Color(51, 52, 55));
-        buttonPelajaran.setText("JADWAL PELAJARAN");
+        buttonPelajaran.setText("JADWAL MENGAJAR");
         buttonPelajaran.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
         buttonPelajaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
