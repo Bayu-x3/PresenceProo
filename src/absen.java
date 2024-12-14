@@ -150,6 +150,7 @@ pstmt.setString(1, selectedClass);
         deleteButton = new rojerusan.RSMaterialButtonRectangle();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableAbsen = new javax.swing.JTable();
+        rSMaterialButtonRectangle1 = new rojerusan.RSMaterialButtonRectangle();
         inputStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -237,8 +238,17 @@ pstmt.setString(1, selectedClass);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 640, 450));
 
+        rSMaterialButtonRectangle1.setBackground(new java.awt.Color(0, 0, 255));
+        rSMaterialButtonRectangle1.setText("KEMBALI");
+        rSMaterialButtonRectangle1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 18)); // NOI18N
+        rSMaterialButtonRectangle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonRectangle1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rSMaterialButtonRectangle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 670, 120, 60));
+
         inputStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/Absensi.png"))); // NOI18N
-        inputStatus.setText("jLabel1");
         getContentPane().add(inputStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, -1, 790));
 
         pack();
@@ -336,6 +346,11 @@ pstmt.setString(1, selectedClass);
         // TODO add your handling code here:
     }//GEN-LAST:event_inputSiswaActionPerformed
 
+    private void rSMaterialButtonRectangle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle1ActionPerformed
+        new guru().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_rSMaterialButtonRectangle1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -380,6 +395,7 @@ pstmt.setString(1, selectedClass);
     private javax.swing.JLabel inputStatus;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JScrollPane jScrollPane1;
+    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle1;
     private javax.swing.JTable tableAbsen;
     private rojerusan.RSMaterialButtonRectangle tambahButton;
     // End of variables declaration//GEN-END:variables
