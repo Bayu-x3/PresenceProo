@@ -93,11 +93,12 @@ public class mapel extends javax.swing.JFrame {
     private void initComponents() {
 
         inputMapel = new javax.swing.JTextField();
-        tambahButton = new rojerusan.RSMaterialButtonRectangle();
+        backButton = new rojerusan.RSMaterialButtonRectangle();
         editButton = new rojerusan.RSMaterialButtonRectangle();
         deleteButton = new rojerusan.RSMaterialButtonRectangle();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMapel = new javax.swing.JTable();
+        tambahButton1 = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -112,16 +113,16 @@ public class mapel extends javax.swing.JFrame {
         });
         getContentPane().add(inputMapel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 300, 100));
 
-        tambahButton.setBackground(new java.awt.Color(0, 255, 0));
-        tambahButton.setBorder(null);
-        tambahButton.setText("tambah");
-        tambahButton.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
-        tambahButton.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setBackground(new java.awt.Color(0, 51, 255));
+        backButton.setBorder(null);
+        backButton.setText("KEMBALI");
+        backButton.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tambahButtonActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(tambahButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 90, 50));
+        getContentPane().add(backButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 110, 50));
 
         editButton.setBorder(null);
         editButton.setText("edit");
@@ -131,7 +132,7 @@ public class mapel extends javax.swing.JFrame {
                 editButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 510, 90, 50));
+        getContentPane().add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 510, 110, 50));
 
         deleteButton.setBackground(new java.awt.Color(255, 0, 0));
         deleteButton.setBorder(null);
@@ -142,7 +143,7 @@ public class mapel extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 510, 90, 50));
+        getContentPane().add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 510, 110, 50));
 
         tableMapel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,33 +160,27 @@ public class mapel extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, 600, 450));
 
+        tambahButton1.setBackground(new java.awt.Color(0, 255, 0));
+        tambahButton1.setBorder(null);
+        tambahButton1.setText("tambah");
+        tambahButton1.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        tambahButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(tambahButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 110, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/MataPelajaran.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
-        String nama_pelajaran = inputMapel.getText();
-
-        if (nama_pelajaran.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "All fields must be filled out.");
-            return; // Prevent the operation if validation fails
-        }
-
-        try {
-            String query = "INSERT INTO pelajaran (nama_pelajaran) VALUES (?)";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, nama_pelajaran);
-            pstmt.executeUpdate();
-
-            loadDataToTable();
-            inputMapel.setText("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tambahButtonActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        new admin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int selectedRow = tableMapel.getSelectedRow();
@@ -240,6 +235,27 @@ public class mapel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputMapelActionPerformed
 
+    private void tambahButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButton1ActionPerformed
+         String nama_pelajaran = inputMapel.getText();
+
+        if (nama_pelajaran.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "All fields must be filled out.");
+            return; // Prevent the operation if validation fails
+        }
+
+        try {
+            String query = "INSERT INTO pelajaran (nama_pelajaran) VALUES (?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, nama_pelajaran);
+            pstmt.executeUpdate();
+
+            loadDataToTable();
+            inputMapel.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tambahButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -276,12 +292,13 @@ public class mapel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSMaterialButtonRectangle backButton;
     private rojerusan.RSMaterialButtonRectangle deleteButton;
     private rojerusan.RSMaterialButtonRectangle editButton;
     private javax.swing.JTextField inputMapel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableMapel;
-    private rojerusan.RSMaterialButtonRectangle tambahButton;
+    private rojerusan.RSMaterialButtonRectangle tambahButton1;
     // End of variables declaration//GEN-END:variables
 }

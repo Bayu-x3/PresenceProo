@@ -197,6 +197,7 @@ public class jadwalGuru extends javax.swing.JFrame {
         deleteButton = new rojerusan.RSMaterialButtonRectangle();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableJadwal = new javax.swing.JTable();
+        kembaliButton = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -288,6 +289,16 @@ public class jadwalGuru extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableJadwal);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 620, 450));
+
+        kembaliButton.setBackground(new java.awt.Color(0, 0, 204));
+        kembaliButton.setText("KEMBALI");
+        kembaliButton.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 18)); // NOI18N
+        kembaliButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kembaliButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(kembaliButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 660, 130, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/JadwalGuru.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -397,6 +408,11 @@ int idKelas = Integer.parseInt(getSelectedId(inputKelas));
         // TODO add your handling code here:
     }//GEN-LAST:event_inputHariActionPerformed
 
+    private void kembaliButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembaliButtonActionPerformed
+        new admin().setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_kembaliButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -443,6 +459,7 @@ int idKelas = Integer.parseInt(getSelectedId(inputKelas));
     private javax.swing.JComboBox<String> inputPelajaran;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private rojerusan.RSMaterialButtonRectangle kembaliButton;
     private javax.swing.JTable tableJadwal;
     private rojerusan.RSMaterialButtonRectangle tambahButton;
     // End of variables declaration//GEN-END:variables

@@ -25,10 +25,21 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        loginButton = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        loginButton.setBackground(new java.awt.Color(51, 52, 55));
+        loginButton.setText("LOGIN");
+        loginButton.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 18)); // NOI18N
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 30, 160, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_login/MainPage.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -78,5 +89,6 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private rojerusan.RSMaterialButtonRectangle loginButton;
     // End of variables declaration//GEN-END:variables
 }
